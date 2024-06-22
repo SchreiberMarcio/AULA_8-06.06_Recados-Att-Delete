@@ -3,7 +3,7 @@
 const tableBody = document.getElementById("tbody-recados");
 const buttonEditar = document.getElementById("buttonEditar")
 
-async function listarRecados() {
+async function listarRecados(pagina = 1, registrosPorPagina = 10)  {
   try {
     // const getRecados = await api.get(`/recados`, {
     //   headers: { Authorization: userLoggedId },
@@ -14,11 +14,18 @@ async function listarRecados() {
     // GET => api.get('endipont', configurações )  configurações = { header: {}, ... }
     // POST => api.post('enpoint', dadosBody, configurações )
 
-    const getRecados = await api.get(`/recados`);
+    const getRecados = await api.get(`/recados`, {
+        params: {
+        page: pagina,
+        limit: registrosPorPagina
+      }
+    });
 
     console.log(getRecados.data)
 
     const listarRecado = getRecados.data.data.recados
+
+    tableBody.innerHTML = '';
 
     for (let indice = 0; indice < listarRecado.length; indice++) {
       tableBody.innerHTML += `

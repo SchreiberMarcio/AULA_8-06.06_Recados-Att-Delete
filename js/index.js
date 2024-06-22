@@ -1,9 +1,8 @@
-
 // Lista os recados
 const tableBody = document.getElementById("tbody-recados");
-const buttonEditar = document.getElementById("buttonEditar")
+const buttonEditar = document.getElementById("buttonEditar");
 
-async function listarRecados(pagina = 1, registrosPorPagina = 10)  {
+async function listarRecados(pagina = 1, registrosPorPagina = 10) {
   try {
     // const getRecados = await api.get(`/recados`, {
     //   headers: { Authorization: userLoggedId },
@@ -15,17 +14,17 @@ async function listarRecados(pagina = 1, registrosPorPagina = 10)  {
     // POST => api.post('enpoint', dadosBody, configurações )
 
     const getRecados = await api.get(`/recados`, {
-        params: {
+      params: {
         page: pagina,
-        limit: registrosPorPagina
-      }
+        limit: registrosPorPagina,
+      },
     });
 
-    console.log(getRecados.data)
+    console.log(getRecados.data);
 
-    const listarRecado = getRecados.data.data.recados
+    const listarRecado = getRecados.data.data.recados;
 
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = "";
 
     for (let indice = 0; indice < listarRecado.length; indice++) {
       tableBody.innerHTML += `
@@ -39,7 +38,7 @@ async function listarRecados(pagina = 1, registrosPorPagina = 10)  {
           </td>
         </tr>
         <br>
-      `
+      `;
     }
   } catch (error) {
     console.error(error.message);

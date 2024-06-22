@@ -1,6 +1,13 @@
 // Lista os recados
 const tableBody = document.getElementById("tbody-recados");
 const buttonEditar = document.getElementById("buttonEditar");
+const pageNumberElement = document.getElementById("pageNumber");
+const previousPageButton = document.getElementById("previousPage");
+const nextPageButton = document.getElementById("nextPage");
+
+let currentPage = 1;
+const registrosPorPagina = 10;
+
 
 async function listarRecados(pagina = 1, registrosPorPagina = 10) {
   try {
@@ -40,9 +47,35 @@ async function listarRecados(pagina = 1, registrosPorPagina = 10) {
         <br>
       `;
     }
+
+    pageNumberElement.textContent = pagina;
+
+    
+    previousPageButton.disabled = pagina === 1;
+
+    
+    const totalRecados = getRecados.data.data.totalRecados;
+    const totalPaginas = Math.ceil(totalRecados / registrosPorPagina);
+    nextPageButton.disabled = pagina >= totalPaginas;
+
+
   } catch (error) {
     console.error(error.message);
   }
 }
+
+previousPageButton.addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    listarRecados(currentPage, registrosPorPagina);
+  }
+});
+
+nextPageButton.addEventListener('click', () => {
+  currentPage++;
+  listarRecados(currentPage, registrosPorPagina);
+});
+
+window.onload = () => listarRecados(currentPage, registrosPorPagina);
 
 window.onload = listarRecados();
